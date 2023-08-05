@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Node.js Documentation Scraper</title>
+</head>
+<body>
+    <h1>Node.js Documentation Scraper</h1>
+    <form method="post">
+        <input type="text" name="keyword" placeholder="Enter a Node.js keyword" required>
+        <button type="submit">Search</button>
+    </form>
+    {% if description %}
+        <h2>Description:</h2>
+        <p>{{ description }}</p>
+    {% endif %}
+</body>
+</html>
