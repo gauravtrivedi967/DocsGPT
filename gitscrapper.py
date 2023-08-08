@@ -20,15 +20,22 @@ def get_readme_content(repo_url):
         print(f"Failed to fetch README content. Status code: {response.status_code}")
         return None
 
-def extract_keyword_details(content, keyword):
-    keyword_details = []
+def extract_keyword_sections(content, keyword):
+    keyword_sections = []
     lines = content.split('\n')
-    
+    current_section = []
+
     for line in lines:
         if keyword in line:
-            keyword_details.append(line)
-    
-    return keyword_details
+            if current_section:
+                keyword_sections.append("\n".join(current_section))
+                current_section = []
+        current_section.append(line)
+
+    if current_section:
+        keyword_sections.append("\n".join(current_section))
+
+    return keyword_sections
 
 if __name__ == "__main__":
     repo_url = input("Enter GitHub repository (owner/repository): ")
@@ -37,11 +44,11 @@ if __name__ == "__main__":
     readme_content = get_readme_content(repo_url)
     
     if readme_content:
-        keyword_details = extract_keyword_details(readme_content, keyword)
+        keyword_sections = extract_keyword_sections(readme_content, keyword)
         
-        if keyword_details:
-            print(f"Details related to '{keyword}':")
-            for detail in keyword_details:
-                print(detail)
+        if keyword_sections:
+            print(f"Sections related to '{keyword}':")
+            for section in keyword_sections:
+                print(section)
         else:
-            print(f"No details found related to '{keyword}'.")
+            print(f"No sections found related to '{keyword}'.")
